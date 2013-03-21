@@ -7,12 +7,12 @@ pygame.init()
 
 swmixer.init(samplerate=44100, chunksize=2048, stereo=True)
 swmixer.start()
-snd1 = swmixer.StreamingSound("assets/audio/3030.mp3")
-snd2 = swmixer.StreamingSound("assets/audio/pliLayer1.mp3")
-snd3 = swmixer.StreamingSound("assets/audio/pliLayer2.mp3")
-snd4 = swmixer.StreamingSound("assets/audio/pliLayer3.mp3")
-snd5 = swmixer.StreamingSound("assets/audio/pliLayer4.mp3")
-snd6 = swmixer.StreamingSound("assets/audio/pliLayer5.mp3")
+snd1 = swmixer.StreamingSound("../assets/audio/3030.mp3")
+snd2 = swmixer.StreamingSound("../assets/audio/pliLayer1.mp3")
+snd3 = swmixer.StreamingSound("../assets/audio/pliLayer2.mp3")
+snd4 = swmixer.StreamingSound("../assets/audio/pliLayer3.mp3")
+snd5 = swmixer.StreamingSound("../assets/audio/pliLayer4.mp3")
+snd6 = swmixer.StreamingSound("../assets/audio/pliLayer5.mp3")
 #swmixer.set_buffersize(512)
 chan1 = snd1.play()
 chan2 = snd2.play(volume=0.1)
@@ -30,7 +30,7 @@ while True:
     #if event.type == 2 and event.key == 276:
     #   print "you did it."
 
-        if event.type == KEYDOWN:
+        if event.type == KEYDOWN and event.key == 97:
             chan2.set_volume(0.9)
         if event.type == KEYUP:
             chan2.set_volume(0.0)
@@ -51,6 +51,6 @@ while True:
         if event.type == 3 and event.key == 92:
             chan6.set_volume(0.0)
 
-        #if event.key == 27:
-        #    exit()
+    #    if event.key == 27:
+    #        exit()
         
