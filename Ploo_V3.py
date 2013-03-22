@@ -1,7 +1,12 @@
 import pygame
 from pygame.locals import *
 import swmixer 
- 
+from layer1 import layer1Text
+
+pygame.font.init()
+fontObj = pygame.font.Font("../assets/fonts/garamondPro.otf", 18)
+msg = layer1Text
+
 swmixer.init(samplerate=44100, chunksize=2048, stereo=True)
 swmixer.start()
 snd1 = swmixer.StreamingSound("../assets/audio/3030.mp3")
@@ -44,14 +49,18 @@ def toggle_fullscreen():
 if __name__ == '__main__':
     SW,SH = 640,480
     screen = pygame.display.set_mode((SW,SH), FULLSCREEN)
-    pygame.display.set_caption('this is a test')
+    pygame.display.set_caption('Poet Laureate Infinity')
     
     _quit = False
+    
+
     while not _quit:
+        msgSurfaceObj = fontObj.render(msg, False, (255,10,10))
+        screen.blit(msgSurfaceObj, (200, 200))
         for e in pygame.event.get():
-            #if (e.type is KEYDOWN and e.key == K_RETURN
-            #        and (e.mod&(KMOD_LALT|KMOD_RALT)) != 0):
-            #    toggle_fullscreen()
+            if (e.type is KEYDOWN and e.key == K_RETURN
+                    and (e.mod&(KMOD_LALT|KMOD_RALT)) != 0):
+                toggle_fullscreen()
             if e.type is QUIT: _quit = True
             if e.type is KEYDOWN and e.key == K_ESCAPE: _quit = True
             if e.type == KEYDOWN and e.key == 304:
