@@ -43,22 +43,37 @@ def toggle_fullscreen():
  
 if __name__ == '__main__':
     SW,SH = 640,480
-    screen = pygame.display.set_mode((SW,SH))
+    screen = pygame.display.set_mode((SW,SH), FULLSCREEN)
     pygame.display.set_caption('this is a test')
     
     _quit = False
     while not _quit:
         for e in pygame.event.get():
-            if (e.type is KEYDOWN and e.key == K_RETURN
-                    and (e.mod&(KMOD_LALT|KMOD_RALT)) != 0):
-                toggle_fullscreen()
+            #if (e.type is KEYDOWN and e.key == K_RETURN
+            #        and (e.mod&(KMOD_LALT|KMOD_RALT)) != 0):
+            #    toggle_fullscreen()
             if e.type is QUIT: _quit = True
             if e.type is KEYDOWN and e.key == K_ESCAPE: _quit = True
-            if e.type == KEYDOWN and e.key == 97:
+            if e.type == KEYDOWN and e.key == 304:
                 chan2.set_volume(1.0)
-            if e.type == KEYUP and e.key == 97:
+            if e.type == KEYUP and e.key == 304:
                 chan2.set_volume(0.0)
-               
+            if e.type == KEYDOWN and e.key == 97:
+                chan3.set_volume(1.0)
+            if e.type == KEYUP and e.key == 97:
+                chan3.set_volume(0.0)
+            if e.type == KEYDOWN and e.key == 119:
+                chan4.set_volume(1.0)
+            if e.type == KEYUP and e.key == 119:
+                chan4.set_volume(0.0)
+            if e.type == KEYDOWN and e.key == 100:
+                chan5.set_volume(1.0)
+            if e.type == KEYUP and e.key == 100:
+                chan5.set_volume(0.0)
+            if e.type == KEYDOWN and e.key == 32:
+                chan6.set_volume(1.0)
+            if e.type == KEYUP and e.key == 32:
+                chan6.set_volume(0.0)   
         screen = pygame.display.get_surface()
         pygame.display.flip()
 
