@@ -7,8 +7,9 @@ pygame.init()
 
 #screen constants
 pygame.display.set_caption('Poet Laureate Infinity')
-SCREEN_SIZE = (1440,852)
-SCREEN = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN)
+#SCREEN_SIZE = (1440,852)
+SCREEN_SIZE = (850, 480)
+SCREEN = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN | RESIZABLE)
 
 #colors
 GREEN = (0,255,0)
@@ -51,6 +52,14 @@ def toggle_fullscreen():
     
     return screen
 
+def animate(pic,a1,b1,a2,b2,de):
+    SCREEN.blit(pic,[a1,b1])
+    pygame.display.flip()
+    pygame.time.delay(de)
+    SCREEN.blit(pic, [a2,b2])
+    pygame.draw.rect(SCREEN, [255,255,255],[x, y, a1, b1], 0)
+    pygame.display.flip
+
 #rects
 CLIP1 = Rect(0, 0, 160, 5000)
 CLIP2 = Rect(170, 0, 160, 5000)
@@ -77,18 +86,26 @@ chan6 = snd6.play(volume=0.0)
 
 #text
 PAGES = {
-        '0' : """welcome to the glyph demo
+        '1' : """Layer 1 column
         /n
         click {link startdemo; {green; here}} to learn about glyph and the glyph mini-language
         /n
         click {link editor; {green; here}} to see and use the editor
         /n
         press ESCAPE anytime to exit this demo
-        """, '1' : """I got bored with four beats to the measure
+        """, '2' : """Layer 2: I got bored with four beats to the measure
         /n
         Professor Speech Compressor Terminated his
         /n 
-        tenure to explore a more rewarding adventure."""}
+        tenure to explore a more rewarding adventure.""", '3' : """Layer 3 column
+        /n
+        click {link startdemo; {green; here}} to learn about glyph and the glyph mini-language
+        /n
+        click {link editor; {green; here}} to see and use the editor
+        /n
+        press ESCAPE anytime to exit this demo
+        """, '4' : """Layer 4\n next line""", '5' : """Layer 5 \n Next line """
+        }
 
 #glyph constants
 FONT = Font("../assets/fonts/myriad.otf", 14)
@@ -99,6 +116,10 @@ DEFAULT = {
     'spacing' : 0, #FONT.get_linesize(),
     }
 
+#time
+clock = pygame.time.Clock()
+TOTAL_SECONDS = [649]
+
 class Main():
 
     def __init__(self):
@@ -108,7 +129,7 @@ class Main():
         self.glyph4 = Glyph(CLIP4, ncols=1, **DEFAULT)
         self.glyph5 = Glyph(CLIP5, ncols=1, **DEFAULT)
         Macros['green'] = ('color', GREEN)
-
+    
     def start(self):
         
         _quit = False
@@ -123,25 +144,35 @@ class Main():
         glyph_rect4 = glyph4.rect
         glyph5 = self.glyph5
         glyph_rect5 = glyph5.rect
-        glyph1.input(PAGES['0'], justify= 'left')
-        glyph2.input(PAGES['1'], justify= 'left')
-        glyph3.input(PAGES['0'], justify= 'left')
-        glyph4.input(PAGES['1'], justify= 'left')
-        glyph5.input(PAGES['0'], justify= 'left')
+        
+        glyph1.input(PAGES['1'], justify= 'left')
+        glyph2.input(PAGES['2'], justify= 'left')
+        glyph3.input(PAGES['3'], justify= 'left')
+        glyph4.input(PAGES['4'], justify= 'left')
+        glyph5.input(PAGES['5'], justify= 'left')
+        
         glyph1.update()
         glyph2.update()
         glyph3.update()
         glyph4.update()
         glyph5.update()
+
         SCREEN.blit(BKGSCREEN, (0,0))
-        SCREEN.blit(glyph1.image, glyph_rect1)
+        #SCREEN.blit(glyph1.image, glyph_rect1)
         SCREEN.blit(glyph2.image, glyph_rect2)
         SCREEN.blit(glyph3.image, glyph_rect3)
         SCREEN.blit(glyph4.image, glyph_rect4)
         SCREEN.blit(glyph5.image, glyph_rect5)
+        
+        glyph1.position = [0,300]
+        
         while not _quit:
-            msgSurfaceObj = fontObj.render(msg, False, (255,10,10))
-            #screen.blit(msgSurfaceObj, (200, 200))
+
+            clock.tick(15)
+
+            SCREEN.blit(glyph1.image, glyph1.position)
+            glyph1.position[1] -= 1
+
             for e in pygame.event.get():
                 if (e.type is KEYDOWN and e.key == K_RETURN
                         and (e.mod&(KMOD_LALT|KMOD_RALT)) != 0):
