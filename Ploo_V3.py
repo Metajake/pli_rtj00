@@ -3,13 +3,14 @@ from pygame.locals import *
 from pygame.font import Font
 import swmixer
 from glyph import Glyph, Macros
+from layer_text_placeholder import LAYERS
 pygame.init()
 
 #screen constants
 pygame.display.set_caption('Poet Laureate Infinity')
 #SCREEN_SIZE = (1440,852)
 SCREEN_SIZE = (850, 480)
-SCREEN = pygame.display.set_mode(SCREEN_SIZE, FULLSCREEN | RESIZABLE)
+SCREEN = pygame.display.set_mode((SCREEN_SIZE), RESIZABLE)
 
 #colors
 GREEN = (0,255,0)
@@ -52,21 +53,18 @@ def toggle_fullscreen():
     
     return screen
 
-def animate(pic,a1,b1,a2,b2,de):
-    SCREEN.blit(pic,[a1,b1])
-    pygame.display.flip()
-    pygame.time.delay(de)
-    SCREEN.blit(pic, [a2,b2])
-    pygame.draw.rect(SCREEN, [255,255,255],[x, y, a1, b1], 0)
-    pygame.display.flip
-
-#rects
+#layout columns
+#screen_size = pygame.display.get_surface()
+x = SCREEN.get_width()
+col2 = x*.2
+col3 = x*.4
+col4 = x*.6
+col5 = x*.8
 CLIP1 = Rect(0, 0, 160, 5000)
-CLIP2 = Rect(170, 0, 160, 5000)
-CLIP3 = Rect(340, 0, 160, 5000)
-CLIP4 = Rect(510, 0, 160, 5000)
-CLIP5 = Rect(680, 0, 160, 5000)
-#center(BKGSCREEN, CLIP)
+CLIP2 = Rect(col2, 0, 160, 5000)
+CLIP3 = Rect(col3, 0, 160, 5000)
+CLIP4 = Rect(col4, 0, 160, 5000)
+CLIP5 = Rect(col5, 0, 160, 5000)
 
 #swmixer
 swmixer.init(samplerate=44100, chunksize=2048, stereo=True)
@@ -83,29 +81,6 @@ chan3 = snd3.play(volume=0.0)
 chan4 = snd4.play(volume=0.0)
 chan5 = snd5.play(volume=0.0)
 chan6 = snd6.play(volume=0.0)
-
-#text
-PAGES = {
-        '1' : """Layer 1 column
-        /n
-        click {link startdemo; {green; here}} to learn about glyph and the glyph mini-language
-        /n
-        click {link editor; {green; here}} to see and use the editor
-        /n
-        press ESCAPE anytime to exit this demo
-        """, '2' : """Layer 2: I got bored with four beats to the measure
-        /n
-        Professor Speech Compressor Terminated his
-        /n 
-        tenure to explore a more rewarding adventure.""", '3' : """Layer 3 column
-        /n
-        click {link startdemo; {green; here}} to learn about glyph and the glyph mini-language
-        /n
-        click {link editor; {green; here}} to see and use the editor
-        /n
-        press ESCAPE anytime to exit this demo
-        """, '4' : """Layer 4\n next line""", '5' : """Layer 5 \n Next line """
-        }
 
 #glyph constants
 FONT = Font("../assets/fonts/myriad.otf", 14)
@@ -132,6 +107,7 @@ class Main():
     
     def start(self):
         
+
         _quit = False
        
         glyph1 = self.glyph1
@@ -145,11 +121,11 @@ class Main():
         glyph5 = self.glyph5
         glyph_rect5 = glyph5.rect
         
-        glyph1.input(PAGES['1'], justify= 'left')
-        glyph2.input(PAGES['2'], justify= 'left')
-        glyph3.input(PAGES['3'], justify= 'left')
-        glyph4.input(PAGES['4'], justify= 'left')
-        glyph5.input(PAGES['5'], justify= 'left')
+        glyph1.input(LAYERS['1'], justify= 'left')
+        glyph2.input(LAYERS['2'], justify= 'left')
+        glyph3.input(LAYERS['3'], justify= 'left')
+        glyph4.input(LAYERS['4'], justify= 'left')
+        glyph5.input(LAYERS['5'], justify= 'left')
         
         glyph1.update()
         glyph2.update()
@@ -157,21 +133,33 @@ class Main():
         glyph4.update()
         glyph5.update()
 
-        SCREEN.blit(BKGSCREEN, (0,0))
+        #SCREEN.blit(BKGSCREEN, (0,0))
         #SCREEN.blit(glyph1.image, glyph_rect1)
-        SCREEN.blit(glyph2.image, glyph_rect2)
-        SCREEN.blit(glyph3.image, glyph_rect3)
-        SCREEN.blit(glyph4.image, glyph_rect4)
-        SCREEN.blit(glyph5.image, glyph_rect5)
+        #SCREEN.blit(glyph2.image, glyph_rect2)
+        #SCREEN.blit(glyph3.image, glyph_rect3)
+        #SCREEN.blit(glyph4.image, glyph_rect4)
+        #SCREEN.blit(glyph5.image, glyph_rect5)
         
-        glyph1.position = [0,300]
+        glyph1.position = [0,480]
+        glyph2.position = [col2,480]
+        glyph3.position = [col3,480]
+        glyph4.position = [col4,480]
+        glyph5.position = [col5,480]
         
         while not _quit:
 
             clock.tick(15)
 
             SCREEN.blit(glyph1.image, glyph1.position)
+            SCREEN.blit(glyph2.image, glyph2.position)
+            SCREEN.blit(glyph3.image, glyph3.position)
+            SCREEN.blit(glyph4.image, glyph4.position)
+            SCREEN.blit(glyph5.image, glyph5.position)
             glyph1.position[1] -= 1
+            glyph2.position[1] -= 1
+            glyph3.position[1] -= 1
+            glyph4.position[1] -= 1
+            glyph5.position[1] -= 1
 
             for e in pygame.event.get():
                 if (e.type is KEYDOWN and e.key == K_RETURN
