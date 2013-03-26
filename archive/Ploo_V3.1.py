@@ -11,6 +11,8 @@ pygame.display.set_caption('Poet Laureate Infinity')
 #SCREEN_SIZE = (1440,852)
 SCREEN_SIZE = (850, 480)
 SCREEN = pygame.display.set_mode((SCREEN_SIZE), RESIZABLE)
+lyrics_screen = pygame.Surface((100,100))
+lyrics_screen.fill((50,50,50))
 
 #colors
 GREEN = (0,255,0)
@@ -75,12 +77,6 @@ snd3 = swmixer.StreamingSound("../assets/audio/l2.mp3")
 snd4 = swmixer.StreamingSound("../assets/audio/l3.mp3")
 snd5 = swmixer.StreamingSound("../assets/audio/l4.mp3")
 snd6 = swmixer.StreamingSound("../assets/audio/l5.mp3")
-chan1 = snd1.play()
-chan2 = snd2.play(volume=0.0)
-chan3 = snd3.play(volume=0.0)
-chan4 = snd4.play(volume=0.0)
-chan5 = snd5.play(volume=0.0)
-chan6 = snd6.play(volume=0.0)
 
 #glyph constants
 FONT = Font("../assets/fonts/myriad.otf", 14)
@@ -104,9 +100,14 @@ class Main():
         self.glyph4 = Glyph(CLIP4, ncols=1, **DEFAULT)
         self.glyph5 = Glyph(CLIP5, ncols=1, **DEFAULT)
         Macros['green'] = ('color', GREEN)
-    
+        chan1 = snd1.play()
+        chan2 = snd2.play(volume=0.0)
+        chan3 = snd3.play(volume=0.0)
+        chan4 = snd4.play(volume=0.0)
+        chan5 = snd5.play(volume=0.0)
+        chan6 = snd6.play(volume=0.0)
+
     def start(self):
-        
 
         _quit = False
        
@@ -187,7 +188,8 @@ class Main():
                     chan6.set_volume(1.0)
                 if e.type == KEYUP and e.key == 32:
                     chan6.set_volume(0.0)   
-            screen = pygame.display.get_surface()
+            #screen = pygame.display.get_surface()
+            SCREEN.blit(lyrics_screen, (50,50))
             pygame.display.flip()
 
 if __name__ == '__main__':

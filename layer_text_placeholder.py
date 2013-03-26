@@ -1,5 +1,5 @@
 LAYERS = { "1":"""
-"I got bored with four beats to the measure, Professor speech compressor"
+"I got bored with four beats to the measure, Professor speech compre{green;ssor}"
 "Terminated his tenure to explore a more rewarding adventure,"
 "Take a closer look at the bars, you'll see I'm not behind them"
 "or in front of them, I'm one of them,"
