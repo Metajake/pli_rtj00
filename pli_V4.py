@@ -11,7 +11,7 @@ pygame.display.set_caption('Poet Laureate Infinity')
 #SCREEN_SIZE = (1440,852)
 SCREEN_SIZE = (850, 480)
 SCREEN = pygame.display.set_mode((SCREEN_SIZE), RESIZABLE)
-lyrics_screen = pygame.Surface((850,240))
+lyrics_screen = pygame.Surface((850,140))
 lyrics_screen.fill((50,50,50))
 info_screen = pygame.Surface((50,50))
 info_screen.fill((200,200,200))
@@ -34,7 +34,7 @@ BKGSCREEN = BKGSCREEN.convert()
 #font
 fontObj = pygame.font.Font("../assets/fonts/garamondPro.otf", 18)
 msg = 'placeholder'
-FONT = Font("../assets/fonts/myriad.otf", 14)
+GLYPH_FONT = Font("../assets/fonts/myriad.otf", 14)
 FPS_FONT = pygame.font.Font("../assets/fonts/myriad.otf", 18)
 
 #layout columns
@@ -43,11 +43,11 @@ col2 = x*.2
 col3 = x*.4
 col4 = x*.6
 col5 = x*.8
-CLIP1 = Rect(0, 0, 160, 5000)
-CLIP2 = Rect(col2, 0, 160, 5000)
-CLIP3 = Rect(col3, 0, 160, 5000)
-CLIP4 = Rect(col4, 0, 160, 5000)
-CLIP5 = Rect(col5, 0, 160, 5000)
+CLIP1 = Rect(0, 0, 160, 1000)
+CLIP2 = Rect(col2, 0, 160, 1000)
+CLIP3 = Rect(col3, 0, 160, 1000)
+CLIP4 = Rect(col4, 0, 160, 1000)
+CLIP5 = Rect(col5, 0, 160, 1000)
 
 #swmixer
 swmixer.init(samplerate=44100, chunksize=2048, stereo=True)
@@ -60,17 +60,17 @@ snd5 = swmixer.StreamingSound("../assets/audio/l4.mp3")
 snd6 = swmixer.StreamingSound("../assets/audio/l5.mp3")
 
 #chan1 = snd1.play()
-chan2 = snd2.play(volume=0.0)
-chan3 = snd3.play(volume=0.0)
-chan4 = snd4.play(volume=0.0)
-chan5 = snd5.play(volume=0.0)
-chan6 = snd6.play(volume=0.0)
+#chan2 = snd2.play(volume=0.0)
+#chan3 = snd3.play(volume=0.0)
+#chan4 = snd4.play(volume=0.0)
+#chan5 = snd5.play(volume=0.0)
+#chan6 = snd6.play(volume=0.0)
 
 #glyph constants
 DEFAULT = {
     'bkg' : (11, 11, 11),
     'color' : (201, 192, 187),
-    'font' : FONT,
+    'font' : GLYPH_FONT,
     'spacing' : 0, #FONT.get_linesize(),
     }
 glyph1 = Glyph(CLIP1, ncols=1, **DEFAULT)
@@ -82,17 +82,18 @@ glyph5 = Glyph(CLIP5, ncols=1, **DEFAULT)
 Macros['green'] = ('color', GREEN)
 Macros['orange'] = ('color', GREEN)
 
-glyph1.position = [0,260]
-glyph2.position = [col2,260]
-glyph3.position = [col3,260]
-glyph4.position = [col4,260]
-glyph5.position = [col5,260]
+textReveal = 140
+glyph1.position = [0,textReveal]
+glyph2.position = [col2,textReveal]
+glyph3.position = [col3,textReveal]
+glyph4.position = [col4,textReveal]
+glyph5.position = [col5,textReveal]
 
-glyph_rect1 = glyph1.rect
-glyph_rect2 = glyph2.rect
-glyph_rect3 = glyph3.rect
-glyph_rect4 = glyph4.rect
-glyph_rect5 = glyph5.rect
+#glyph_rect1 = glyph1.rect
+#glyph_rect2 = glyph2.rect
+#glyph_rect3 = glyph3.rect
+#glyph_rect4 = glyph4.rect
+#glyph_rect5 = glyph5.rect
 
 glyph1.input(LAYERS['1'], justify= 'left')
 glyph2.input(LAYERS['2'], justify= 'left')
@@ -101,10 +102,6 @@ glyph4.input(LAYERS['4'], justify= 'left')
 glyph5.input(LAYERS['5'], justify= 'left')
 
 #glyph1.update()
-#glyph2.update()
-#glyph3.update()
-#glyph4.update()
-#glyph5.update()
 
 #time
 clock = pygame.time.Clock()
@@ -161,7 +158,6 @@ def toggle_fullscreen():
     return screen
 
 def scroll_lyrics():
-    
     lyrics_screen.blit(glyph1.image, glyph1.position)
     lyrics_screen.blit(glyph2.image, glyph2.position)
     lyrics_screen.blit(glyph3.image, glyph3.position)
@@ -174,23 +170,30 @@ def scroll_lyrics():
     glyph4.position[1] -= 1
     glyph5.position[1] -= 1
    
-def Tick(timeChange, screen):
+def Tick(screen):
     global accumulator
     avg_delta = 690
-    accumulator += timeChange
-    if accumulator > timeChange:
-        accumultor = accumulator - avg_delta
-        Numeral.beat()
+    #accumulator += timeChange
+    #if accumulator > timeChange:
+    #    accumultor = accumulator - avg_delta
+    #    Numeral.beat()
+    Numeral.beat()
     Numeral.draw(screen, accumulator, avg_delta)
 
 #__INIT__SHIT
 #FPS_RENDERING = FPS_FONT.render('0', False, ORANGE)
 _quit = False
 pygame.time.set_timer(USEREVENT+1, 690)
+pygame.time.set_timer(USEREVENT+2, 249)
 chan1 = snd1.play()
+chan2 = snd2.play(0.0)
+chan3 = snd3.play(0.0)
+chan4 = snd4.play(0.0)
+chan5 = snd5.play(0.0)
+chan6 = snd6.play(0.0)
 
 while not _quit:
-    timeChange = clock.tick(30)
+    clock.tick(30)
     remainingEvents = pygame.event.get()
     for e in remainingEvents:
         if (e.type is KEYDOWN and e.key == K_RETURN
@@ -219,9 +222,11 @@ while not _quit:
         if e.type == KEYUP and e.key == 32:
             chan6.set_volume(0.0)   
         if e.type == USEREVENT+1:
-            Tick(timeChange, SCREEN)
+            Tick(SCREEN)
+        if e.type == USEREVENT+2:
+            scroll_lyrics()
 
-    scroll_lyrics()   
+    #scroll_lyrics()   
     
     SCREEN.blit(lyrics_screen, (0,20))
     
